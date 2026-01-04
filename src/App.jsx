@@ -3,7 +3,6 @@ import Character from './pages/Character/Character';
 import CharacterDescription from './pages/CharacterDescription/CharacterDescription';
 
 function App() {
-
   return (
     <BrowserRouter>
       <Routes>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchCharacter, fetchByUrl } from "../../api/api";
+import styles from "./CharacterDescription.module.css";
 
 export default function CharacterDescription() {
   const { id } = useParams();
@@ -12,13 +13,13 @@ export default function CharacterDescription() {
     async function load() {
       const res = await fetchCharacter(id);
       setCharacter(res.data);
+
       if (res.data.origin.url) {
         const originRes = await fetchByUrl(res.data.origin.url);
         setOrigin(originRes.data);
       }
-      const eps = await Promise.all(
-        res.data.episode.map(fetchByUrl)
-      );
+
+      const eps = await Promise.all(res.data.episode.map(fetchByUrl));
       setEpisodes(eps.map(e => e.data.name));
     }
     load();
@@ -27,7 +28,7 @@ export default function CharacterDescription() {
   if (!character) return <p>Loading...</p>;
 
   return (
-    <div>
+    <div className={styles.container}>
       <img src={character.image} alt={character.name} />
       <h1>{character.name}</h1>
       <p>{character.gender} - {character.species}</p>
